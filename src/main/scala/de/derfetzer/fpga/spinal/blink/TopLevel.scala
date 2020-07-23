@@ -1,9 +1,8 @@
 package de.derfetzer.fpga.spinal.blink
 
-import de.derfetzer.fpga.spinal.blackbox.IcebreakerPll
-import de.derfetzer.fpga.spinal.pmod.{DA2, DA2FunctionGenerator}
+import de.derfetzer.fpga.spinal.pmod.DA2FunctionGenerator
 import spinal.core._
-import spinal.lib.Counter
+import spinal.lib.blackbox.lattice.ice40.{SB_PLL40_PAD, SB_PLL40_PAD_CONFIG}
 
 class TopLevel extends Component {
   val io = new Bundle {
@@ -20,13 +19,31 @@ class TopLevel extends Component {
     val P1A10 = out Bool
   }
 
-  val pll = IcebreakerPll()
-  pll.clock_in := io.CLK
+  val pll = SB_PLL40_PAD(
+    SB_PLL40_PAD_CONFIG(
+      DIVR = 0,
+      DIVF = 79,
+      DIVQ = 4,
+      FILTER_RANGE = B"3'b001",
+      FEEDBACK_PATH = "SIMPLE",
+      DELAY_ADJUSTMENT_MODE_FEEDBACK = "FIXED",
+      FDA_FEEDBACK = B"4'b0000",
+      DELAY_ADJUSTMENT_MODE_RELATIVE = "FIXED",
+      FDA_RELATIVE = B"4'b0000",
+      SHIFTREG_DIV_MODE = B"1'b0",
+      PLLOUT_SELECT = "GENCLK",
+      ENABLE_ICEGATE = True
+    )
+  )
+
+  pll.PACKAGEPIN := io.CLK
+  pll.RESETB := True
+  pll.BYPASS := False
 
   // Create own clock-domain for the
   // 60 Mhz Clock from PLL
   val extClockDomain = ClockDomain(
-    clock = pll.clock_out,
+    clock = pll.PLLOUTCORE,
     frequency = FixedFrequency(60 MHz),
     config = ClockDomainConfig(
       clockEdge = RISING,
