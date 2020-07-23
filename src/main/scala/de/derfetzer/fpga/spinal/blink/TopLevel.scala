@@ -24,13 +24,13 @@ class TopLevel extends Component {
       DIVR = 0,
       DIVF = 79,
       DIVQ = 4,
-      FILTER_RANGE = B"3'b001",
+      FILTER_RANGE = 1,
       FEEDBACK_PATH = "SIMPLE",
       DELAY_ADJUSTMENT_MODE_FEEDBACK = "FIXED",
-      FDA_FEEDBACK = B"4'b0000",
+      FDA_FEEDBACK = 0,
       DELAY_ADJUSTMENT_MODE_RELATIVE = "FIXED",
-      FDA_RELATIVE = B"4'b0000",
-      SHIFTREG_DIV_MODE = B"1'b0",
+      FDA_RELATIVE = 0,
+      SHIFTREG_DIV_MODE = 1,
       PLLOUT_SELECT = "GENCLK",
       ENABLE_ICEGATE = True
     )
