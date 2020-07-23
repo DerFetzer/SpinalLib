@@ -1,12 +1,11 @@
 package de.derfetzer.fpga.spinal.pmod
 
 import spinal.core._
-import spinal.core.sim._
 import spinal.lib._
-import spinal.lib.fsm._
 import spinal.lib.com.spi.ddr.{SpiXdrMasterCtrl, SpiXdrParameter}
+import spinal.lib.fsm._
 
-class DA2 extends Component{
+class DA2 extends Component {
   val io = new Bundle {
     val active = in Bool
     val write = in Bool

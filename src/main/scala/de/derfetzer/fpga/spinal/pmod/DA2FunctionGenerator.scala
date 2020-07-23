@@ -5,7 +5,7 @@ import spinal.lib.Counter
 
 class DA2FunctionGenerator extends Component {
   val io = new Bundle {
-    val stepSize = in UInt(8 bits)
+    val stepSize = in UInt (8 bits)
 
     val sync = out Bool
     val dina = out Bool
@@ -18,9 +18,9 @@ class DA2FunctionGenerator extends Component {
   val resolutionWidth = 12
   val sampleCount = 2048
 
-  def sinTable = for(sampleIndex <- 0 until sampleCount) yield {
+  def sinTable = for (sampleIndex <- 0 until sampleCount) yield {
     val sinValue = Math.sin(2 * Math.PI * sampleIndex / sampleCount) + 1
-    U((sinValue * ((1<<resolutionWidth)/2-1)).toInt,resolutionWidth bits)
+    U((sinValue * ((1 << resolutionWidth) / 2 - 1)).toInt, resolutionWidth bits)
   }
 
   val da2 = new DA2
@@ -28,8 +28,8 @@ class DA2FunctionGenerator extends Component {
   val cnt = Counter(7 bits)
   cnt.increment()
 
-  val rom = Mem(UInt(resolutionWidth bits),initialContent = sinTable)
-  val phase = Reg(UInt(log2Up(sampleCount) bits)) init(0)
+  val rom = Mem(UInt(resolutionWidth bits), initialContent = sinTable)
+  val phase = Reg(UInt(log2Up(sampleCount) bits)) init (0)
   when(cnt.willOverflow) {
     phase := phase + io.stepSize
     da2.io.write := True

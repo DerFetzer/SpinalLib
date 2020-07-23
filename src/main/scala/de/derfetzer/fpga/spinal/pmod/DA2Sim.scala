@@ -1,12 +1,10 @@
 package de.derfetzer.fpga.spinal.pmod
 
-import spinal.sim._
 import spinal.core.sim._
-import spinal.core._
 
 object DA2Sim {
   def main(args: Array[String]) {
-    SimConfig.withWave.doSim(new DA2) {dut =>
+    SimConfig.withWave.doSim(new DA2) { dut =>
       dut.io.data1.payload #= 0xABAB
       dut.io.data2.payload #= 0xAAAA
       dut.io.data1.valid #= true
@@ -22,13 +20,13 @@ object DA2Sim {
 
       dut.io.write #= true
 
-      while(!dut.io.busy.toBoolean) {
+      while (!dut.io.busy.toBoolean) {
         dut.clockDomain.waitRisingEdge()
       }
 
       dut.clockDomain.waitRisingEdge(10)
 
-      for(idx <- 0 to 100) {
+      for (idx <- 0 to 100) {
         dut.clockDomain.waitRisingEdge()
 
         if (!dut.io.busy.toBoolean) {
