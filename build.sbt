@@ -1,6 +1,6 @@
 import scala.sys.process._
 
-name := "SpinalApioTemplateSbt"
+name := "SpinalLib"
 version := "1.0"
 scalaVersion := "2.11.12"
 val spinalVersion = "1.4.0"
